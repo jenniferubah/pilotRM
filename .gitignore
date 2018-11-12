@@ -1,0 +1,8 @@
+src/main/java/com/Jennifer/mst/api/Saying.java
+src/main/java/com/Jennifer/mst/resources/HelloWorldResource.java
+gradlew
+gradlew.bat
+settings.gradle
+.idea
+gradle
+.gradle
