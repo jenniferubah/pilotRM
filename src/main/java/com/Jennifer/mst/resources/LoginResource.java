@@ -37,7 +37,7 @@ public class LoginResource {
             queryParams.put("client_id", client_id);
             queryParams.put("response_type", "code");
             queryParams.put("redirect_uri", "http://localhost:8080/redirect_page");
-            queryParams.put("scope", "user-read-private");
+            queryParams.put("scope", "user-read-private user-top-read");
 
             String queries = MyStringBuilder.getParamsString(queryParams);
 

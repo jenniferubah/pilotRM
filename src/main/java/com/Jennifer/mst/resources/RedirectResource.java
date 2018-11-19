@@ -1,10 +1,12 @@
 package com.Jennifer.mst.resources;
 
+import com.Jennifer.mst.api.Artists;
 import com.Jennifer.mst.api.Authorization;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -17,17 +19,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
+import java.io.IOException;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Set;
 
 @Path("/redirect_page")
 @Produces(MediaType.APPLICATION_JSON)
@@ -40,18 +35,18 @@ public class RedirectResource {
 
     @GET
     public String getRedirectPage(@QueryParam("code") @NotEmpty String code){
-        System.out.println("my authcode is: " + code);
+        //System.out.println("my authcode is: " + code);
         this.authCode = code;
 
         Client client = Client.create();
-        WebResource spotifyResoursce = client.resource("https://accounts.spotify.com/api/token");
+        WebResource spotifyResource = client.resource("https://accounts.spotify.com/api/token");
 
         MultivaluedMap queries = new MultivaluedMapImpl();
         queries.putSingle("grant_type", "authorization_code");
         queries.putSingle("code", this.authCode);
         queries.putSingle("redirect_uri", "http://localhost:8080/redirect_page");
 
-        ClientResponse response = spotifyResoursce.queryParams(queries).
+        ClientResponse response = spotifyResource.queryParams(queries).
                 header("Content-Type", "application/x-www-form-urlencoded" ).
                 header("Authorization", "Basic " + encodedData).post(ClientResponse.class);
 
@@ -61,7 +56,10 @@ public class RedirectResource {
         try{
 
             Authorization myAuth = objectMapper.readValue(jsonStr, Authorization.class);
-            System.out.println("access token " + myAuth.getAccess_token());
+            String token = myAuth.getAccess_token();
+
+
+            String jsonResponse = getTopArtist(token);
 
         } catch (JsonParseException e){
             e.printStackTrace();
@@ -88,5 +86,27 @@ public class RedirectResource {
         return jsonStr;
 
     }
+
+    public String getTopArtist(String token){
+
+        MultivaluedMap queries = new MultivaluedMapImpl();
+        queries.putSingle("limit", "2");
+        queries.putSingle("time_range", "medium_term");
+
+
+        Client client = Client.create();
+        WebResource topArtistEndpoint = client.resource("https://api.spotify.com/v1/me/top/artists");
+        ClientResponse response = topArtistEndpoint.queryParams(queries).header("Authorization", "Bearer " + token).get(ClientResponse.class);
+
+        String jsonSource = response.getEntity(String.class);
+        System.out.println(jsonSource);
+
+        //=============
+        Artists targetObject = new Gson().fromJson(jsonSource, Artists.class);
+        System.out.println(targetObject.getAllGenres());
+
+        return jsonSource;
+    }
+
 
 }
