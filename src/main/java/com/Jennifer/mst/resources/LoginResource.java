@@ -22,8 +22,8 @@ import java.util.Map;
 @Produces(MediaType.APPLICATION_JSON)
 public class LoginResource {
 
-    private final String client_id = "2ac0c18c9dcb48c394bc4c2aef7d048e";
-    private final String client_secret = "8defc20e1f8e44859657cabfd7ca85ac";
+    private final String client_id = "";
+    private final String client_secret = "";
 
     private String encodedData = Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes());
 
