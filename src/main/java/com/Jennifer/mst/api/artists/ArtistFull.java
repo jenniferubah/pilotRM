@@ -1,10 +1,8 @@
-package com.Jennifer.mst.api;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+package com.Jennifer.mst.api.artists;
 
 import java.util.*;
 
-public class Artists {
+public class TopArtists {
 
     private Item[] items;
     private String next;
@@ -23,7 +21,6 @@ public class Artists {
         }
 
         return stringBuilder.toString();
-
     }
 
     public Set<String> getAllGenres(){
