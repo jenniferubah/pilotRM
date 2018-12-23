@@ -28,7 +28,7 @@ import java.util.*;
 @Produces(MediaType.APPLICATION_JSON)
 public class RedirectResource {
 
-    private final String client_id = "g";
+    private final String client_id = "";
     private final String client_secret = "";
     private String encodedData = Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes());
     private String authCode = "";
