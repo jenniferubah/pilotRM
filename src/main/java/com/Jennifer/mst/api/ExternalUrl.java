@@ -1,15 +1,15 @@
 package com.Jennifer.mst.api;
 
-public class ExternalUri {
-    private String uriType;
+public class ExternalUrl {
+    private String urlType;
     private String extUrl;
 
-    public String getUriType() {
-        return uriType;
+    public String getUrlType() {
+        return urlType;
     }
 
-    public void setUriType(String uriType) {
-        this.uriType = uriType;
+    public void setUrlType(String urlType) {
+        this.urlType = urlType;
     }
 
     public String getExtUrl() {

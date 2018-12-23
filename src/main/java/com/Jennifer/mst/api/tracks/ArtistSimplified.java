@@ -2,7 +2,7 @@ package com.Jennifer.mst.api.tracks;
 
 import com.Jennifer.mst.api.ExternalUrl;
 
-public class Artist {
+public class ArtistSimplified {
 
     private ExternalUrl external_urls;
     private String href;

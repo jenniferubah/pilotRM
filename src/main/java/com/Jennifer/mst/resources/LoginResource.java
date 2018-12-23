@@ -1,20 +1,18 @@
 package com.Jennifer.mst.resources;
 
+/**
+ * This displays the login page that redirects
+ * to a spotify's accounts page for the user to log in.
+ */
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import java.io.*;
 import java.net.*;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,12 +20,7 @@ import java.util.Map;
 @Produces(MediaType.APPLICATION_JSON)
 public class LoginResource {
 
-    private final String client_id = "";
-    private final String client_secret = "";
-
-    private String encodedData = Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes());
-
-    private String authCode = "";
+    private final String client_id = "2ac0c18c9dcb48c394bc4c2aef7d048e";
 
     @GET
     public Response onLoginClick() {
@@ -37,7 +30,7 @@ public class LoginResource {
             queryParams.put("client_id", client_id);
             queryParams.put("response_type", "code");
             queryParams.put("redirect_uri", "http://localhost:8080/redirect_page");
-            queryParams.put("scope", "user-read-private user-top-read");
+            queryParams.put("scope", "user-read-private user-top-read playlist-modify-private playlist-modify-public");
 
             String queries = MyStringBuilder.getParamsString(queryParams);
 

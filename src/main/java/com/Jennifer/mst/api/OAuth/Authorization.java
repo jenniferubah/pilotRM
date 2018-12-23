@@ -1,4 +1,4 @@
-package com.Jennifer.mst.api;
+package com.Jennifer.mst.api.OAuth;
 
 public class Authorization {
 

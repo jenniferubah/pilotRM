@@ -1,5 +1,10 @@
 package com.Jennifer.mst;
 
+/**
+ *
+ * These are configuration properties used by dropwizard at runtime.
+ *
+ */
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;

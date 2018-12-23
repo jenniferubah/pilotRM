@@ -2,7 +2,7 @@ package com.Jennifer.mst.api.artists;
 
 import java.util.*;
 
-public class TopArtists {
+public class ArtistFull {
 
     private Item[] items;
     private String next;
@@ -12,15 +12,17 @@ public class TopArtists {
     private String href;
 
 
-    public String getAllArtistIDs() {
+    public String[] getSeedAritst() {
         StringBuilder stringBuilder = new StringBuilder();
+        String[] artistArr = new String[items.length];
 
         for (int i = 0; i < items.length; i++){
             String artistId = items[i].getId();
-            stringBuilder.append(artistId + ",");
+            artistArr[i] = artistId;
         }
 
-        return stringBuilder.toString();
+        //String artistID = stringBuilder.toString().replaceAll(",$", "");
+        return artistArr;
     }
 
     public Set<String> getAllGenres(){
@@ -32,7 +34,4 @@ public class TopArtists {
         return mergedGenreSet;
     }
 
-    public void setItems(Item[] items) {
-        this.items = items;
-    }
 }

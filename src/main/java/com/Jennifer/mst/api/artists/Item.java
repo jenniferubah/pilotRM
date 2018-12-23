@@ -1,4 +1,6 @@
-package com.Jennifer.mst.api;
+package com.Jennifer.mst.api.artists;
+
+import com.Jennifer.mst.api.ExternalUrl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +8,7 @@ import java.util.Set;
 
 public class Item {
 
-    private ExternalUri external_urls = new ExternalUri();
+    private ExternalUrl external_urls = new ExternalUrl();
     private Follower followers = new Follower();
     private Set<String> genres;
     private String href;
@@ -32,5 +34,13 @@ public class Item {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }
