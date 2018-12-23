@@ -20,7 +20,7 @@ import java.util.Map;
 @Produces(MediaType.APPLICATION_JSON)
 public class LoginResource {
 
-    private final String client_id = "2ac0c18c9dcb48c394bc4c2aef7d048e";
+    private final String client_id = "";
 
     @GET
     public Response onLoginClick() {
