@@ -28,13 +28,13 @@ import java.util.*;
 @Produces(MediaType.APPLICATION_JSON)
 public class RedirectResource {
 
-    private final String client_id = "g";
+    private final String client_id = "";
     private final String client_secret = "";
     private String encodedData = Base64.getEncoder().encodeToString((client_id + ":" + client_secret).getBytes());
     private String authCode = "";
     private String seedTrack;
-    private String seedGenres;
-    private String seedArtists;
+    private String[] seedGenres;
+    private String[] seedArtists;
     private String spotifyUserID;
 
     @GET
@@ -85,9 +85,8 @@ public class RedirectResource {
         System.out.println("top track ids " + topTrackIDs);
 
         String artistAndGenres = getTopArtistAndGenres(token);
-        System.out.println("artist and genres " + artistAndGenres);
 
-        String trackUris = getRecommendationList(token, artistAndGenres, topTrackIDs);
+        String trackUris = getRecommendationList(token, seedArtists, seedGenres, topTrackIDs);
         System.out.println("track uris " + trackUris);
 
         String response = addRecommendedTracksToPlaylist(token, trackUris);
@@ -133,27 +132,10 @@ public class RedirectResource {
                 .get(String.class);
 
         ArtistFull artistObject = new Gson().fromJson(response, ArtistFull.class);
+        this.seedArtists = artistObject.getSeedAritst();
+        this.seedGenres = artistObject.getSeedGenres();
 
-        StringBuffer artistsAndGenresBuffer = new StringBuffer();
-        String[] seedArtists = artistObject.getSeedAritst();
-        for(int i = 0; i < 5; i++){
-            artistsAndGenresBuffer.append(seedArtists[i] + ",");
-        }
-
-
-/*        Set<String> genreSet = artistObject.getAllGenres();
-        int count = 0;
-        StringBuffer genresBuffer = new StringBuffer();
-        Iterator<String> genreListIterator = genreSet.iterator();
-
-        while(genreListIterator.hasNext() & count <= 5){
-            genresBuffer.append(genreListIterator.next() + ",");
-            count++;
-        }*/
-
-        String artistAndGenre = artistsAndGenresBuffer.toString().replaceAll(",$", "");
-
-        return artistAndGenre;
+        return null;
     }
 
     /**
@@ -184,17 +166,19 @@ public class RedirectResource {
     /**
      * This method makes a call the recommendation endpoint
      * @param token - access token
-     * @param artist - top artist ids
+     * @param artists - top artist ids
+     * @param genres - top genres
      * @param topTrackIdList - top track ids
      * @return a comma separated list of track uris for recommended tracks
      */
 
-    public String getRecommendationList(String token, String artist, List<String> topTrackIdList){
+    public String getRecommendationList(String token, String[] artists, String[] genres, List<String> topTrackIdList){
 
         Client client = ClientBuilder.newClient();
         WebTarget topArtistEndpoint = client.target("https://api.spotify.com/v1/recommendations");
         String response = topArtistEndpoint.queryParam("limit", "5")
-                .queryParam("seed_artists", artist)
+                .queryParam("seed_genres", genres)
+                .queryParam("seed_artists", artists)
                 .request()
                 .header("Authorization", "Bearer " + token)
                 .get(String.class);
@@ -214,7 +198,7 @@ public class RedirectResource {
     public void createPlaylistOnSpotify(String token){
 
         Client client = ClientBuilder.newClient();
-        WebTarget createPlaylistEndpoint = client.target("https://api.spotify.com/v1/users/jenniferubah/playlists");
+        WebTarget createPlaylistEndpoint = client.target("https://api.spotify.com/v1/users/me/playlists");
 
         Playlist playlist = new Playlist();
         playlist.setName("demo");

@@ -13,25 +13,32 @@ public class ArtistFull {
 
 
     public String[] getSeedAritst() {
-        StringBuilder stringBuilder = new StringBuilder();
-        String[] artistArr = new String[items.length];
+        String[] seedArtist = new String[items.length];
 
         for (int i = 0; i < items.length; i++){
             String artistId = items[i].getId();
-            artistArr[i] = artistId;
+            seedArtist[i] = artistId;
         }
 
-        //String artistID = stringBuilder.toString().replaceAll(",$", "");
-        return artistArr;
+        return seedArtist;
     }
 
-    public Set<String> getAllGenres(){
+    public String[] getSeedGenres(){
         Set<String> mergedGenreSet = new HashSet<>();
 
         for(int i = 0; i < items.length; i++){
             mergedGenreSet.addAll(items[i].getGenres());
         }
-        return mergedGenreSet;
+
+        Iterator<String> genreListIterator = mergedGenreSet.iterator();
+
+        int count = 0;
+        String[] seedGenres = new String[5];
+        while(genreListIterator.hasNext() & count < 5){
+            seedGenres[count] = genreListIterator.next();
+            count++;
+        }
+        return seedGenres;
     }
 
 }
