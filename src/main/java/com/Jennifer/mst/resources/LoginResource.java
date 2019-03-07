@@ -16,7 +16,7 @@ import java.net.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@Path("/redirect")
+@Path("/login")
 @Produces(MediaType.APPLICATION_JSON)
 public class LoginResource {
 
